@@ -1,0 +1,39 @@
+Methods to refine robot’s navigation stack to mitigate the environment uncertainty i.e planning in Dynamic Environments ::
+
+
+1) Introduction -
+Many operating environments are not static, and are therefore not known a priori. For eg. in an urban environment, the traffic moves, road detours and closures occur for construction or accident cleanup, and views are frequently obstructed. The robot must constantly perceive new changes in the environment and be able to react while accounting for several uncertainties. Uncertainties arise from perception sensor accuracy, localization accuracy, environment changes, and control policy execution. However, in application, perhaps the largest source of uncertainty is the uncertainty in surrounding obstacles’ movements.
+ 
+
+2) Methodologies:-
+a)Planning in Space-Time: -
+To better account for obstacle movement, it is necessary to include time as a dimension in the configuration space, which although increases the problem complexity,but the instantaneous position and velocity of obstacles may be perceived to ascertain future obstacle trajectories. Prior approaches have aimed to use simple assumptions, such as constant velocity 
+trajectory, in predicting obstacle movement, with errors accounted for by rapid iterative re-planning. Other more conservative approaches have aimed to account for variations in obstacle trajectory by bounding larger obstacle-occupied sub-spaces within the configuration space, within which samples are rejected by the planner. 
+Given a situation in which the instantaneous position and velocity of obstacles can be observed, it logically follows that future obstacle trajectories can be predicted. The common assumption of deterministic constant velocity requires frequent verification or correction with each new observation. 
+Another method is to assume a bounded velocity on obstacles and represent them as conical volumes in space-time, thus reducing the need for observation updating and re-planning. Other assumptions can be applied to obstacles as well, such as static assumption, constant velocity assumption, bounded 
+velocity, and bounded acceleration, each of which yields a bounded volume of a different shape in space-time .A naive assumption would be to ignore the uncertainty in the prediction of an obstacle’s trajectory, in which case the obstacle bounded space does not grow over time . A more conservative approach would be to assume a larger bounded area of possible obstacle occupancy, where the obstacle space bounds grow over time according to assumed limitations on the obstacle’s velocity and or acceleration.
+￼
+b) Combinatorial Planning :
+Combinatorial planners aim to find a complete solution by building a discrete representation which exactly represents the original problem, but which is characterized by convenient properties
+for special case solvers. For example, geometric solutions may efficiently be generated in low dimensional spaces with discrete convex obstacle spaces by constructing visibility graphs (shortest
+path solution), Voronoi-diagrams (highest clearance solution), or decomposing the space into obstacle
+free “cells” using obstacle boundaries as cell borders.
+
+Recent works have also made use of space discretization in order to apply more advanced decision
+making algorithms. For example, cell decomposition was used to generate paths which would obey road rules specified via Linear Temporal Logic (LTL). Tumova et al. used similar LTL methods to further investigate situations where the robot was allowed to break some rules (such as always drive in the lane) in order to reach goals that were otherwise obstructed. Cell decomposition was also necessary to apply popular models for handling environment uncertainty, such as Partially Observable Markov Decision Processes (POMDP) and Mixed Observability Markov 
+Decision Processes (MOMDP). Other moving obstacles’ intentions were inferred in real-time while the robot’s motion plan was executed concurrently. POMDPs assume uncertainty in 
+both the robot’s motion and in observation and account for this uncertainty in solving for optimal
+policies, where MOMDPs have extended this idea to situations in which some of the state variables are
+partially observable and others are full observable . It’s worth noting that POMDPs have been gaining popularity recently with the emergence of efficient point based value iteration solvers like SARSOP. Prior to the emergence of SARSOP and other popular approximation algorithms, POMDPs were often avoided in robotics because solving POMDPs exactly is computationally intractable and the framework scales poorly with increasing number of states and increasing planning horizon . Recent research has also targeted means to apply POMDP to continuous spaces .
+
+c)Cooperative Localisation :-
+It has been found that simply adding the information together from multiple source vehicles is not sufficient, and inconsistent perception results can lead to dangerous driving behaviours .
+Since the vehicles are mobile and their locations are uncertain, their perception results may be “unaligned” or inconsistent. Map merging is proposed to align multiple local sensing maps so that the observations are consistent. Nonetheless, transmitting a local sensing map uses substantial communication resources. A more efficient way is to localize them well on a global map so that sensing information can be accurately projected onto a global map. In this way, perception results would consequently be aligned. The well-aligned observations or perception results allow AVs to 
+have a larger area of environmental understanding, and thereby significantly improve environmental awareness. Also, fusing sensing information can potentially reduce perception uncertainty, increase localization accuracy, and improve state observability. More importantly, the merged information would allow the early detection of possible hazards and thereby allow AVs to have a faster response to avoid dangerous accidents.
+Vehicle Shape Information Utilisation
+Cooperative localization essentially exploits the correlations, i.e., the joint and relative observations, to further improve localization accuracy cooperatively. The relative observation is often utilized for cooperative localization. For example, relative range is measured by via the 
+one-way-travel-time (OWTT) and utilized in cooperative localization. The relative bearing is also measured with a range sensor in so that the relative position can be determined. 
+The relative orientation is not considered in cooperative localization, partially because the shapes of the robots are arbitrary and it is difficult to measure relative heading. However, the relative orientation is of great importance for autonomous driving and it would be appealing to have the uncertainty 
+of relative orientation further reduced. Nonetheless, the method requires merging two local maps, which would use substantial computational and communicational resources. For vehicles, their shapes are usually rectangular when projected onto a plane parallel to the ground. When detected by a range sensor, such as a 2D 
+LIDAR sensor, the shape of vehicle is expected to resemble the letter “L”. In certain cases,an efficient L-shape fitting algorithm is proposed to obtain accurate relative poses for cooperative localization.
+
