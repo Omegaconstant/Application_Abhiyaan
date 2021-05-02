@@ -29,3 +29,8 @@ c++(mostly from youtube from Apana College by Aman Dhatterwaal)
 Request :
 Respected Sir/Ma'am,
 As far as qn 3 and 4 are concerned ,although I know the answer,submitted by me, is incorrect to some extent(in 3 it outputs in two different line rather than in a single line and in 4 ,the turtle1 moves in a straightline to some distant) , but this is based upon the learning ,as beginner i received in such a short time ;so i thought to post those.May I please request you to go through both of those //
+
+Mobile No. :
+6370642056
+
+
